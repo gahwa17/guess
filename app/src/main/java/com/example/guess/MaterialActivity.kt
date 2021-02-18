@@ -1,5 +1,6 @@
 package com.example.guess
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -34,6 +35,7 @@ class MaterialActivity : AppCompatActivity() {
                 .show()
         }
         counter.setText(secretNumber.count.toString())
+        Log.d(TAG, "onCreate: "+secretNumber.secret)
     }
     fun check(view : View) {
         //n:user guess num
@@ -56,7 +58,14 @@ class MaterialActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_title))
             .setMessage(msg)
-            .setPositiveButton(getString(R.string.OK),null)
+            //Here we judge when Bingo(if difff = 0),then we move to RecordActivity, change the listener to add an intent
+            .setPositiveButton(getString(R.string.OK),{dialog, which ->
+                if(diff==0){
+                    val intent = Intent(this,RecordActivity::class.java)
+                    intent.putExtra("COUNTER",secretNumber.count)
+                    startActivity(intent)
+                }
+            })
             .show()
     }
 }
