@@ -1,5 +1,6 @@
 package com.example.guess
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -36,7 +37,14 @@ class MaterialActivity : AppCompatActivity() {
         }
         counter.setText(secretNumber.count.toString())
         Log.d(TAG, "onCreate: "+secretNumber.secret)
+
+        val count = getSharedPreferences("guess",Context.MODE_PRIVATE)
+            .getInt("REC_COUNTER", -1)
+        val nick = getSharedPreferences("guess",Context.MODE_PRIVATE)
+            .getString("REC_NICKNAME", null)
+        Log.d(TAG,"data" + count + "/" + nick)
     }
+
     fun check(view : View) {
         //n:user guess num
         val n = number.text.toString().toInt()
